@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BlueJelly</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="bluejelly.js"></script>
+</head>
+<body>
+<h1></h1>
+<div class="container">
+  <div class="title margin">
+    <p id="title">BlueJelly Sample</p>
+    <p id="subtitle">Hello, BLE</p>
+  </div>
+
+  <div class="contents margin">
+    <button id="read" class="button">Read</button>
+    <hr>
+    <div id="device_name"></div>
+    <div id="uuid_name"></div>
+    <div id="data_text"></div>
+    <div id="status"></div>
+  </div>
+</div>
+
+<script>
+const ble = new BlueJelly();
+
+window.onload = () => {
+  ble.setUUID('UUID1', '229bff00-03fb-40da-98a7-b0def65c2d4b', '229b3010-03fb-40da-98a7-b0def65c2d4b')
+}
+
+ble.onScan = (deviceName) => {
+  document.getElementById('device_name').innerHTML = deviceName
+  document.getElementById('status').innerHTML = 'found device!!!!'
+}
+
+ble.onConnectGATT = (uuid) => {
+  console.log('> connected GATT!!!!')
+
+  document.getElementById('uuid_name').innerHTML = uuid
+  document.getElementById('status').innerHTML = 'connected GATT!!!!'
+}
+
+ble.onRead = (data, uuid) => {
+  let value = data.getInt8(0)
+  console.log(value)
+
+  document.getElementById('data_text').innerHTML = value
+  document.getElementById('uuid_name').innerHTML = uuid
+  document.getElementById('status').innerHTML = 'read data'
+}
+
+document.getElementById('read').addEventListener('click', () => {
+  ble.read('UUID1')
+})
+</script>
+
+</body>
+</html>
