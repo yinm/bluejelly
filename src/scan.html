@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BlueJelly</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="bluejelly.js"></script>
+</head>
+<body>
+<h1></h1>
+<div class="container">
+  <div class="title margin">
+    <p id="title">BlueJelly Sample</p>
+    <p id="subtitle">Hello, BLE</p>
+  </div>
+
+  <div class="contents margin">
+    <button id="scan" class="button">Scan</button>
+    <hr>
+    <div id="device_name"></div>
+  </div>
+</div>
+
+<script>
+const ble = new BlueJelly();
+
+window.onload = function() {
+  ble.setUUID('UUID1', '00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-000000000000')
+}
+
+ble.onScan = (deviceName) => {
+  document.getElementById('device_name').innerHTML = deviceName
+}
+
+document.getElementById('scan').addEventListener('click', () => {
+  ble.scan('UUID1')
+})
+</script>
+
+</body>
+</html>
